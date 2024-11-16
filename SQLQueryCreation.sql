@@ -1,0 +1,64 @@
+use sqlTestTask;
+
+CREATE TABLE Banks(
+	Id INT NOT NULL,
+    "Name" NVARCHAR(120) NOT NULL,
+	CONSTRAINT PK_Banks_Id PRIMARY KEY(Id)
+);
+
+CREATE TABLE Statuses(
+    Id INT NOT NULL,
+    "Name" NVARCHAR(80) NOT NULL,
+	CONSTRAINT PK_Statuses_Id PRIMARY KEY(Id)
+);
+
+CREATE TABLE Cities(
+    Id INT NOT NULL,
+    "Name" NVARCHAR(120) NOT NULL,
+	CONSTRAINT PK_Cities_Id PRIMARY KEY(Id)
+);
+
+CREATE TABLE Clients(
+    Id INT NOT NULL,
+    "Name" NVARCHAR(80) NOT NULL,
+    Surname NVARCHAR(80) NOT NULL,
+    Status_Id INT NOT NULL,
+	CONSTRAINT PK_Clients_Id PRIMARY KEY(Id),
+	CONSTRAINT FK_Clients_Status_Id FOREIGN KEY(Status_Id) REFERENCES Statuses(Id),
+);
+
+CREATE TABLE Branches(
+    Id INT NOT NULL,
+    Bank_Id INT NOT NULL,
+    "Name" NVARCHAR(120) NOT NULL,
+	CONSTRAINT PK_Branches_Id PRIMARY KEY(Id),
+	CONSTRAINT FK_Branches_Bank_Id FOREIGN KEY(Bank_Id) REFERENCES Banks(Id)
+);
+
+CREATE TABLE BranchCity(
+    Id INT NOT NULL,
+    City_Id INT NOT NULL,
+    Branch_Id INT NOT NULL,
+	CONSTRAINT PK_BranchCity_Id PRIMARY KEY(Id),
+	CONSTRAINT FK_BranchCity_Branch_Id FOREIGN KEY(Branch_Id) REFERENCES Cities(Id),
+	CONSTRAINT FK_BranchCity_City_Id FOREIGN KEY(City_Id) REFERENCES Branches(Id)
+);
+
+CREATE TABLE Accounts(
+    Id INT NOT NULL,
+    Bank_Id INT NOT NULL,
+    Client_Id INT NOT NULL,
+    Balance DECIMAL(8, 2) NOT NULL,
+	CONSTRAINT PK_Accounts_Id PRIMARY KEY(Id),
+	CONSTRAINT FK_Accounts_Bank_Id FOREIGN KEY(Bank_Id) REFERENCES Banks(Id),
+	CONSTRAINT FK_Accounts_Client_Id FOREIGN KEY(Client_Id) REFERENCES Clients(Id),
+	CONSTRAINT UQ_Accounts_Bank_Id_Client_Id UNIQUE(Bank_Id, Client_Id),
+);
+
+CREATE TABLE Cards(
+    Id INT NOT NULL,
+    Account_Id INT NOT NULL,
+    Balance DECIMAL(8, 2) NOT NULL,
+	CONSTRAINT PK_Cards_Id PRIMARY KEY(Id),
+	CONSTRAINT FK_Cards_Account_Id FOREIGN KEY(Account_Id) REFERENCES Accounts(Id)
+);

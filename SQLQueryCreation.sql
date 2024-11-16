@@ -30,18 +30,11 @@ CREATE TABLE Clients(
 CREATE TABLE Branches(
     Id INT NOT NULL,
     Bank_Id INT NOT NULL,
+	City_Id INT NOT NULL,
     "Name" NVARCHAR(120) NOT NULL,
 	CONSTRAINT PK_Branches_Id PRIMARY KEY(Id),
+	CONSTRAINT FK_Branches_City_Id FOREIGN KEY(City_Id) REFERENCES Cities(Id),
 	CONSTRAINT FK_Branches_Bank_Id FOREIGN KEY(Bank_Id) REFERENCES Banks(Id)
-);
-
-CREATE TABLE BranchCity(
-    Id INT NOT NULL,
-    City_Id INT NOT NULL,
-    Branch_Id INT NOT NULL,
-	CONSTRAINT PK_BranchCity_Id PRIMARY KEY(Id),
-	CONSTRAINT FK_BranchCity_Branch_Id FOREIGN KEY(Branch_Id) REFERENCES Cities(Id),
-	CONSTRAINT FK_BranchCity_City_Id FOREIGN KEY(City_Id) REFERENCES Branches(Id)
 );
 
 CREATE TABLE Accounts(

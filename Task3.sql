@@ -5,9 +5,9 @@
 
 SELECT A.Id as Account_Id, 
 	A.Balance as Account_Balance,
-	SUM(C.Balance) as Card_Balance,
-	A.Balance - SUM(C.Balance) as Differce
+	COALESCE(SUM(C.Balance),0) as Card_Balance,
+	A.Balance - COALESCE(SUM(C.Balance),0) as Differce
 FROM Accounts A
-	JOIN Cards C ON C.Account_Id=A.Id
+	LEFT JOIN Cards C ON C.Account_Id=A.Id
 GROUP BY A.Id, A.Balance
-HAVING SUM(C.Balance) != A.Balance
+HAVING COALESCE(SUM(C.Balance),0) != A.Balance

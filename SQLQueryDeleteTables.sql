@@ -13,3 +13,6 @@ DROP TABLE IF EXISTS Cards;
 DROP TABLE IF EXISTS Cities;
 DROP TABLE IF EXISTS Statuses;
 DROP TABLE IF EXISTS Banks;
+go 
+DROP PROCEDURE dbo.Add10ToBalanceBySocialGroup;
+DROP PROCEDURE dbo.TransferFromAccountToCard;
